@@ -343,6 +343,8 @@ open .github/workflows/docs.yml
 ```
 You can choose from a couple differet runners other than `ubuntu-latest` as described [here](https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners).
 
+You can monitor the progress on your repo page `github.com` under `Actions`.
+
 A common problem is that you used some external library that you installed with `pip install external_library`. Now what - should you add it to the build process for the documentation? **No** - this only adds more dependencies that need to be installed, and it's probably not relevant for the docs. Instead you can edit in `conf.py` the option:
 ```
 autodoc_mock_imports = [
@@ -351,4 +353,7 @@ autodoc_mock_imports = [
 ```
 such that the build process for the docs will proceed even when the library is missing.
 
-Let's first prepare the `sphinx-apidoc -o . ../autos` command
+## Final thoughts
+
+Finally, we can complete this guide by adding a badge to your `README.md` that your docs built:
+
