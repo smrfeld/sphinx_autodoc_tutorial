@@ -16,8 +16,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install python3-sphinx
-        pip install -U pip
-        pip install sphinx-rtd-theme
+        pip3 install -U pip
+        pip3 install sphinx-rtd-theme
     - name: Build docs
       run: |
         cd docs
