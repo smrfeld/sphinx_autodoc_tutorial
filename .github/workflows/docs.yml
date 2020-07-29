@@ -22,7 +22,18 @@ jobs:
         sudo apt-get update
         sudo apt-get install python3-sphinx
         pip3 install sphinx-rtd-theme
+    
     - name: Build docs
       run: |
         cd docs
         make html
+
+    # https://github.com/peaceiris/actions-gh-pages
+    - name: Deploy
+      if: success()
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish_branch: gh-pages
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/_build/html/
+

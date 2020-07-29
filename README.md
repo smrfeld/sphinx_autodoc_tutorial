@@ -80,6 +80,10 @@ The test script in the `tests` directory should produce:
 ```
 Riding: SR400 on road: 101
 ```
+The neat thing here is that editing the `test.py` should in any modern IDE (e.g. VS Code) now give you autocomplete suggestions:
+
+<img src="figures/p9.png" alt="drawing" width="400"/>
+
 Great! On to the documentation.
 
 ## Adding documentation
