@@ -10,13 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+
+    - name: Install Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
 
     - name: Install sphinx
       run: |
         sudo apt-get update
         sudo apt-get install python3-sphinx
-        pip3 install -U pip
         pip3 install sphinx-rtd-theme
     - name: Build docs
       run: |
