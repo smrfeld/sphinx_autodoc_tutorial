@@ -361,3 +361,10 @@ such that the build process for the docs will proceed even when the library is m
 
 Finally, we can complete this guide by adding a badge to your `README.md` that your docs built:
 
+
+
+
+
+
+        sudo apt-get update
+        sudo apt-get install python3-sphinx
