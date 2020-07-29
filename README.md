@@ -328,9 +328,20 @@ docs/_templates
 ```
 Commit the remaining files in the repo, then go on GitHub, create a new repo for this project and push your first commit.
 ```
+git add .
+git commit -m "Initial"
 git remote add origin https://github.com/...
-
+git push --set-upstream origin master
 ```
+
+Let's create a new GitHub Actions workflow. They live in a `.github/workflows` directory that does not yet exist. Create it:
+```
+mkdir .github/
+mkdir .github/workflows
+touch .github/workflows/docs.yml
+open .github/workflows/docs.yml
+```
+You can choose from a couple differet runners other than `ubuntu-latest` as described [here](https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners).
 
 A common problem is that you used some external library that you installed with `pip install external_library`. Now what - should you add it to the build process for the documentation? **No** - this only adds more dependencies that need to be installed, and it's probably not relevant for the docs. Instead you can edit in `conf.py` the option:
 ```
