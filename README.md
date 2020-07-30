@@ -1,12 +1,16 @@
 # Documenting your Python library, from zero to website
 
+![](https://github.com/smrfeld/sphinx_autodoc_tutorial/workflows/docs/badge.svg)
+
 Documentation is quite a project, but your project is already a project, and who want's another project? Here we will try to describe how to document your project, all in one go.
+
+[You can see the final result here.](https://www.oliver-ernst.com/sphinx_autodoc_tutorial/)
+
+[You can find all the code for this project on GitHub here.](https://github.com/smrfeld/sphinx_autodoc_tutorial)
 
 ## Your library
 
 I said we'd do it from scratch, so we will have to make a library. You probably already have a library, so you can easily figure out how to paste your files here.
-
-
 
 
 
@@ -349,7 +353,22 @@ You can choose from a couple differet runners other than `ubuntu-latest` as desc
 
 You can monitor the progress on your repo page `github.com` under `Actions`.
 
-A common problem is that you used some external library that you installed with `pip install external_library`. Now what - should you add it to the build process for the documentation? **No** - this only adds more dependencies that need to be installed, and it's probably not relevant for the docs. Instead you can edit in `conf.py` the option:
+Your website should then be available under:
+```
+https://username.github.io/repo_name
+```
+
+Mine didn't appear right away. Check your settings on the "Settings" tab under "GitHub pages" - they should automatically have changed to build from the `gh-pages` branch:
+
+<img src="figures/p8.png" alt="drawing" width="400"/>
+
+I had to manually change this from `gh-pages` to `master` **and back** to get the website to become available. It should then also list the URL automatically here.
+
+You can also check your `gh-pages` branch, which should containt your HTML files:
+
+<img src="figures/p10.png" alt="drawing" width="400"/>
+
+A common problem in the build process is that you used some external library that you installed with `pip install external_library`. Now what - should you add it to the build process for the documentation? **No** - this only adds more dependencies that need to be installed, and it's probably not relevant for the docs. Instead you can edit in `conf.py` the option:
 ```
 autodoc_mock_imports = [
     "external_library"
@@ -359,12 +378,11 @@ such that the build process for the docs will proceed even when the library is m
 
 ## Final thoughts
 
+Your final docs are now online!
+
+<img src="figures/p11.png" alt="drawing" width="400"/>
+
 Finally, we can complete this guide by adding a badge to your `README.md` that your docs built:
-
-
-
-
-
-
-        sudo apt-get update
-        sudo apt-get install python3-sphinx
+```
+![](https://github.com/username/repo_name/workflows/docs/badge.svg)
+```
