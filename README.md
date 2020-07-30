@@ -2,7 +2,9 @@
 
 ![](https://github.com/smrfeld/sphinx_autodoc_tutorial/workflows/docs/badge.svg)
 
-Documentation is quite a project, but your project is already a project, and who want's another project? Here we will try to describe how to document your project, all in one go.
+[You can read this on Medium here.](https://medium.com/p/488f87ae58f5/edit)
+
+Documentation is quite a project, but your project is already a project, and who wants another project? Here we will try to describe how to document your project, all in one go. We will start with a totally empty project, and go all the way to a website hosted on GitHub pages, built automatically with GitHub actions.
 
 [You can see the final result here.](https://www.oliver-ernst.com/sphinx_autodoc_tutorial/)
 
@@ -12,9 +14,13 @@ Documentation is quite a project, but your project is already a project, and who
 
 I said we'd do it from scratch, so we will have to make a library. You probably already have a library, so you can easily figure out how to paste your files here.
 
-
-
-
+Let's create a library called `autos`. Create a folder for it and two files:
+```
+mkdir autos
+touch autos/__init__.py
+touch autos/bike.py
+```
+with contents for `bike.py`:
 ```
 class Bike:
 
@@ -84,9 +90,6 @@ The test script in the `tests` directory should produce:
 ```
 Riding: SR400 on road: 101
 ```
-The neat thing here is that editing the `test.py` should in any modern IDE (e.g. VS Code) now give you autocomplete suggestions:
-
-<img src="figures/p9.png" alt="drawing" width="400"/>
 
 Great! On to the documentation.
 
@@ -144,7 +147,9 @@ class Bike:
         return True
 ```
 
-The neat part is: editing the test, you should already see the doc suggestions.
+The neat thing here is that editing the `test.py` should in any modern IDE (e.g. VS Code) now give you autocomplete suggestions:
+
+<img src="figures/p9.png" alt="drawing" width="400"/>
 
 ## Generating the website
 
@@ -349,20 +354,66 @@ mkdir .github/workflows
 touch .github/workflows/docs.yml
 open .github/workflows/docs.yml
 ```
-You can choose from a couple differet runners other than `ubuntu-latest` as described [here](https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners).
+Give the file the following contents:
+```
+name: docs
+on:
+  push:
+    branches:
+    - master
 
-You can monitor the progress on your repo page `github.com` under `Actions`.
+jobs:
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Install Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+
+    - name: Install requirements
+      run: |
+        pip3 install sphinx-rtd-theme
+    
+    - name: Build docs
+      run: |
+        cd docs
+        make html
+
+    # https://github.com/peaceiris/actions-gh-pages
+    - name: Deploy
+      if: success()
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish_branch: gh-pages
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/_build/html/
+```
+Let's break it down:
+* `name` - obvious
+* `on` - you can add different triggers here. Here we build the docs on every push to master. You can also do e.g. pull request.
+* `docs job` - this is the only job here, which will build the docs.
+* `runs-on: ubuntu-latest` - You can choose from a couple differet runners other than `ubuntu-latest` as described [here](https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners).
+* `uses: actions/checkout@v2` - **very important!** Without this, we don't actually check out our repo!
+* `Install Python` - get the latest 3.8 Python - `ubuntu-latest` is not-so-latest.
+* `Build docs` - the `make html` command from before. Make sure we do it in the docs directory.
+* `Deploy` - deploy the pages in `docs/_build/html` to the `gh-pages` branch such that your docs become visible to the world.
+
+Add, commit and push the workflow. You can monitor the progress of the action on your repo page `github.com` under `Actions`.
 
 Your website should then be available under:
 ```
 https://username.github.io/repo_name
 ```
-
 Mine didn't appear right away. Check your settings on the "Settings" tab under "GitHub pages" - they should automatically have changed to build from the `gh-pages` branch:
 
 <img src="figures/p8.png" alt="drawing" width="400"/>
 
-I had to manually change this from `gh-pages` to `master` **and back** to get the website to become available. It should then also list the URL automatically here.
+I had to manually change this from `gh-pages` to `master` **and back** to get the website to become available. It should then also automatically list the URL here.
 
 You can also check your `gh-pages` branch, which should containt your HTML files:
 
@@ -386,3 +437,7 @@ Finally, we can complete this guide by adding a badge to your `README.md` that y
 ```
 ![](https://github.com/username/repo_name/workflows/docs/badge.svg)
 ```
+
+<img src="figures/p12.png" alt="drawing" width="400"/>
+
+Thanks for reading!
